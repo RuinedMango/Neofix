@@ -6,3 +6,8 @@ dependencies {
 }
 
 description = "jmccc microsoft authenticator"
+tasks.jar {
+    manifest {
+        attributes("Automatic-Module-Name" to "jmccc.microsoft.authenticator")
+    }
+}

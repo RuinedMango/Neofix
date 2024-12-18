@@ -9,3 +9,8 @@ dependencies {
 }
 
 description = "jmccc mcdownloader"
+tasks.jar {
+    manifest {
+        attributes("Automatic-Module-Name" to "jmccc.mcdownloader")
+    }
+}

@@ -90,8 +90,9 @@ class InstallProfileProcessor implements ResultProcessor<byte[], String> {
         try (URLClassLoader cl = new URLClassLoader(new URL[]{installerJar.toFile().toURI().toURL()})) {
             Class<?> installer = cl.loadClass("net.minecraftforge.installer.SimpleInstaller");
             Method main = installer.getMethod("main", String[].class);
-            //We have tweaked install server to install client
-            main.invoke(null, (Object) new String[]{"--installServer", mcdir.getAbsolutePath()});
+            //Installs client
+            main.invoke(null, (Object) new String[]{"--installClient", mcdir.getAbsolutePath()});
+            
         }
     }
 }

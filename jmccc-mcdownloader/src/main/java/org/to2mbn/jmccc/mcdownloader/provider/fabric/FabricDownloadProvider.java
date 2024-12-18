@@ -7,7 +7,7 @@ import org.to2mbn.jmccc.mcdownloader.provider.*;
 import org.to2mbn.jmccc.option.MinecraftDirectory;
 
 public class FabricDownloadProvider extends AbstractMinecraftDownloadProvider implements ExtendedDownloadProvider {
-    private MinecraftDownloadProvider upstreamProvider;
+	private MinecraftDownloadProvider upstreamProvider;
     private FabricDownloadSource source;
 
     public FabricDownloadProvider(FabricDownloadSource source) {
