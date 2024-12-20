@@ -1,11 +1,11 @@
-package org.to2mbn.jmccc.mcdownloader.provider.forge;
+package org.to2mbn.jmccc.mcdownloader.provider.neoforge;
 
 import org.objectweb.asm.*;
 
 import java.io.InputStream;
 
-public class ForgeInstallerTweaker {
-    //https://github.com/MinecraftForge/Installer/blob/2.0/src/main/java/net/minecraftforge/installer/SimpleInstaller.java
+public class NeoforgeInstallerTweaker {
+    //https://github.com/neoforged/LegacyInstaller/blob/main/src/main/java/net/minecraftforge/installer/SimpleInstaller.java
     public static byte[] tweakSimpleInstaller(InputStream is) throws Exception {
         ClassReader cr = new ClassReader(is);
         ClassWriter cw = new ClassWriter(0);
@@ -32,22 +32,8 @@ public class ForgeInstallerTweaker {
         protected MainMethodVisitor(int api, MethodVisitor methodVisitor) {
             super(api, methodVisitor);
         }
-        
-        @Override
-        public void visitFieldInsn(int opcode, String owner, String name, String descriptor) {
-            // Change Actions.SERVER -> Actions.CLIENT TODO: may be redundant chose whether to remove
-            if (opcode == Opcodes.GETSTATIC && name.equals("SERVER")) {
-                name = "CLIENT";
-            }
-            super.visitFieldInsn(opcode, owner, name, descriptor);
-        }
         @Override
         public void visitMethodInsn(int opcode, String owner, String name, String descriptor, boolean isInterface) {
-            // Remove System.exit
-            if (opcode == Opcodes.INVOKESTATIC && name.equals("exit")) {
-                super.visitInsn(Opcodes.POP);
-                return;
-            }
             // Replaces ending launchGui with return
             if (opcode == Opcodes.INVOKESTATIC && name.equals("launchGui")) {
             	super.visitInsn(Opcodes.POP);

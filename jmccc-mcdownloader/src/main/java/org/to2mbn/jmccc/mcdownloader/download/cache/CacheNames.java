@@ -12,6 +12,7 @@ public final class CacheNames {
     public static final String ASSET = PREFIX_STATIC + "asset";
     public static final String FORGE_INSTALLER = PREFIX_STATIC + "forge.installer";
     public static final String FORGE_UNIVERSAL = PREFIX_STATIC + "forge.universal";
+    public static final String NEOFORGE_INSTALLER = PREFIX_STATIC + "neoforge.installer";
     private static final String PREFIX_DYNAMIC = PREFIX + "dynamic.";
     // Official minecraft caches
     public static final String VERSION_LIST = PREFIX_DYNAMIC + "versionList";
