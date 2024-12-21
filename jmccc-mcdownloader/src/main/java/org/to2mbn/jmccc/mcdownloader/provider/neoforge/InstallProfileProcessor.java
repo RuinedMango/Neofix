@@ -1,9 +1,7 @@
 package org.to2mbn.jmccc.mcdownloader.provider.neoforge;
 
 import org.to2mbn.jmccc.internal.org.json.JSONObject;
-import org.to2mbn.jmccc.internal.org.json.JSONTokener;
 import org.to2mbn.jmccc.mcdownloader.download.tasks.ResultProcessor;
-import org.to2mbn.jmccc.mcdownloader.provider.VersionJsonInstaller;
 import org.to2mbn.jmccc.option.MinecraftDirectory;
 import org.to2mbn.jmccc.util.IOUtils;
 
@@ -18,7 +16,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
-class InstallProfileProcessor implements ResultProcessor<byte[], String> {
+class InstallProfileProcessor implements ResultProcessor<byte[], Void> {
 
     private MinecraftDirectory mcdir;
 
@@ -27,10 +25,9 @@ class InstallProfileProcessor implements ResultProcessor<byte[], String> {
     }
 
     @Override
-    public String process(byte[] arg) throws Exception {
+    public Void process(byte[] arg) throws Exception {
         Path tweakedInstaller = mcdir.get("neoforge-installer.jar");
         ZipOutputStream zos = new ZipOutputStream(Files.newOutputStream(tweakedInstaller));
-        String newInstallerVersion = null;
         try (ZipInputStream in = new ZipInputStream(new ByteArrayInputStream(arg))) {
             ZipEntry entry;
             while ((entry = in.getNextEntry()) != null) {
@@ -41,9 +38,6 @@ class InstallProfileProcessor implements ResultProcessor<byte[], String> {
                 zos.putNextEntry(new ZipEntry(entry.getName()));
                 if ("install_profile.json".equals(entry.getName())) {
                     byte[] bytes = IOUtils.toByteArray(in);
-                    JSONObject installProfile = new JSONObject(new JSONTokener(new String(bytes)));
-                    JSONObject versionInfo = processJson(installProfile);
-                    newInstallerVersion = installProfile.optString("version");
                     zos.write(bytes);
                 } else if ("net/minecraftforge/installer/SimpleInstaller.class".equals(entry.getName())) {
                     byte[] out = NeoforgeInstallerTweaker.tweakSimpleInstaller(in);
@@ -60,7 +54,7 @@ class InstallProfileProcessor implements ResultProcessor<byte[], String> {
         //1.12.2 2851+
         runInstaller(tweakedInstaller);
         Files.delete(tweakedInstaller);
-        return newInstallerVersion;
+		return null;
     }
 
     protected JSONObject processJson(JSONObject installprofile) {
@@ -74,7 +68,7 @@ class InstallProfileProcessor implements ResultProcessor<byte[], String> {
             Files.write(launcherProfile, "{}".getBytes(StandardCharsets.UTF_8));
         }
 
-        //Run forge installer
+        //Run neoforge installer
         try (URLClassLoader cl = new URLClassLoader(new URL[]{installerJar.toFile().toURI().toURL()})) {
             Class<?> installer = cl.loadClass("net.minecraftforge.installer.SimpleInstaller");
             Method main = installer.getMethod("main", String[].class);

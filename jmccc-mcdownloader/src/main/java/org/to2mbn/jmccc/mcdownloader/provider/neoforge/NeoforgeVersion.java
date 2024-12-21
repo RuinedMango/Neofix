@@ -52,7 +52,7 @@ public class NeoforgeVersion implements Serializable {
     }
 
     public String getMavenVersion() {
-        String ver = minecraftVersion + "-" + neoforgeVersion;
+        String ver = neoforgeVersion;
         if (branch != null)
             ver += "-" + branch;
         return ver;

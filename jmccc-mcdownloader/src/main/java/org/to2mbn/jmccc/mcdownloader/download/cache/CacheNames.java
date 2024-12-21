@@ -25,7 +25,9 @@ public final class CacheNames {
     public static final String LITELOADER_VERSION_JSON = PREFIX_DYNAMIC + "liteloader.versionJson";
     // Fabric caches
     public static final String FABRIC_VERSION_LIST = PREFIX_DYNAMIC + "fabric.versionList";
-
+    // Neoforge caches
+    public static final String NEOFORGE_VERSION_META = PREFIX_DYNAMIC + "neoforge.versionMeta";
+    
     // Maven
     public static final String M2_METADATA = PREFIX_DYNAMIC + "m2.metadata";
 

@@ -6,6 +6,8 @@ dependencies {
     implementation("javax.cache:cache-api:1.1.1")
     implementation("org.apache.commons:commons-compress:1.22")
     implementation("org.ow2.asm:asm:9.4")
+    implementation("com.fasterxml.jackson.core:jackson-databind:2.18.2")
+	implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.18.2")
 }
 
 description = "jmccc mcdownloader"
